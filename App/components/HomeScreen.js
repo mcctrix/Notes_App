@@ -4,47 +4,18 @@ import { Context } from "./GlobalStore";
 import Header from "./Header";
 import InputNote from "./InputNote";
 import Note from "./Note";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen() {
-  const [InputVisibility, setInputVisibility] = useState(false);
   const context = useContext(Context);
-
-  const NoteAddHandler = async (note, setEnteredNote) => {
-    context.setState((value) => ++value);
-    setInputVisibility(false);
-    if (note == "") {
-      return;
-    } else {
-      const req = await AsyncStorage.getItem("Notes_Data");
-      if (req == null) {
-        const data = [{ key: Date.now(), value: note, isFav: false }];
-        let jsondata = JSON.stringify(data);
-        await AsyncStorage.setItem("Notes_Data", jsondata);
-      } else {
-        let database = JSON.parse(req);
-        let added = [
-          ...database,
-          { key: Date.now(), value: note, isFav: false },
-        ];
-        let pushme = JSON.stringify(added);
-        await AsyncStorage.setItem("Notes_Data", pushme);
-      }
-      setEnteredNote("");
-    }
-  };
 
   return (
     <View style={styles.main}>
       <Header></Header>
-      <InputNote
-        visibility={InputVisibility}
-        NoteAdd={NoteAddHandler}
-      ></InputNote>
+      <InputNote></InputNote>
       <Note></Note>
       <TouchableOpacity
         style={styles.AddButton}
-        onPress={() => setInputVisibility(true)}
+        onPress={() => context.setInputVis(true)}
       >
         <Text style={styles.AddButtonText}>&#x2B;</Text>
       </TouchableOpacity>

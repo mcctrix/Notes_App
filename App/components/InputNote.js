@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Context } from "./GlobalStore";
 import {
   View,
   TextInput,
@@ -7,17 +8,18 @@ import {
   Modal,
   Text,
 } from "react-native";
-import { CheckBox } from "react-native-paper";
+
 export default function (props) {
+  const Store = useContext(Context);
   const [EnteredNote, setEnteredNote] = useState("");
   const NoteInputHandler = (value) => {
     setEnteredNote(value);
   };
   const AddNote = () => {
-    props.NoteAdd(EnteredNote, setEnteredNote);
+    Store.NoteAdd(EnteredNote, setEnteredNote);
   };
   return (
-    <Modal visible={props.visibility} animationType="slide">
+    <Modal visible={Store.InputVis} animationType="slide">
       <View style={styles.input_container}>
         <Text style={styles.Text}>Add Note</Text>
         <TextInput
@@ -26,7 +28,7 @@ export default function (props) {
           style={styles.inputfield}
           onSubmitEditing={AddNote}
         />
-        <CheckBox />
+
         <View style={styles.Buttons}>
           <TouchableOpacity
             title="Add"
@@ -39,7 +41,7 @@ export default function (props) {
           <TouchableOpacity
             title="Cancel"
             style={styles.InputButton}
-            onPress={props.NoteAdd.bind(this, "")}
+            onPress={Store.NoteAdd.bind(this, "")}
           >
             <Text style={styles.InputButtonText}>Cancel</Text>
           </TouchableOpacity>
