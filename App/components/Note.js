@@ -25,7 +25,9 @@ export default function Note() {
     }
   };
   const DeleteNote = async (key) => {
-    const newNotes = Notes.filter((item) => item.key != key);
+    const NoteData = await AsyncStorage.getItem("Notes_Data");
+    const JsonData = JSON.parse(NoteData);
+    const newNotes = JsonData.filter((item) => item.key != key);
     const JsonNotes = JSON.stringify(newNotes);
     await AsyncStorage.setItem("Notes_Data", JsonNotes);
     context.setState((prev) => ++prev);

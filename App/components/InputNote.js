@@ -9,7 +9,7 @@ import {
   Text,
 } from "react-native";
 
-export default function (props) {
+export default function () {
   const Store = useContext(Context);
   const [EnteredNote, setEnteredNote] = useState("");
   const NoteInputHandler = (value) => {

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { Context } from "./GlobalStore";
 import Header from "./Header";
