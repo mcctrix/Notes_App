@@ -1,85 +1,41 @@
-import React, { useState } from "react";
-import NoteCard from "./components/NoteCard";
-import InputNote from "./components/InputNote";
-import Header from "./components/Header";
+import React from "react";
+import HomeScreen from "./components/HomeScreen";
+import Favourite from "./components/Favourite";
+import Settings from "./components/Settings";
+import GlobalStore from "./components/GlobalStore";
+import { NavigationContainer } from "@react-navigation/native";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  Text,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 
 export default function app() {
-  const [Notes, setNotes] = useState([
-    { key: Math.random(), value: "Learn React Native" },
-    { key: Math.random(), value: "React is best" },
-  ]);
-  const [InputVisibility, setInputVisibility] = useState(false);
-
-  const NoteAddHandler = (note, EN) => {
-    setInputVisibility(false);
-    if (note == "") {
-      return;
-    } else {
-      setNotes(() => [
-        ...Notes,
-        { key: Math.random().toString(), value: note },
-      ]);
-      EN("");
-    }
-  };
-
-  const DeleteNote = (key) => {
-    setNotes((Notes) => {
-      return Notes.filter((item) => item.key != key);
-    });
-  };
-
+  const Tab = createMaterialBottomTabNavigator();
   return (
     <View style={styles.main}>
-      <Header></Header>
-      <InputNote
-        visibility={InputVisibility}
-        NoteAdd={NoteAddHandler}
-      ></InputNote>
-      <FlatList
-        data={Notes}
-        renderItem={(item) => (
-          <NoteCard DeleteNote={DeleteNote} note={item.item}></NoteCard>
-        )}
-      />
-      <TouchableOpacity
-        style={styles.AddButton}
-        onPress={() => setInputVisibility(true)}
-      >
-        <Text style={styles.AddButtonText}>&#x2B;</Text>
-      </TouchableOpacity>
+      <GlobalStore>
+        <NavigationContainer initialRoute="Home">
+          <Tab.Navigator
+            barStyle={{ backgroundColor: "#055d75" }}
+            labeled="true"
+          >
+            <Tab.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                title: "Notes",
+              }}
+            />
+            <Tab.Screen name="Favourite" component={Favourite} />
+            <Tab.Screen name="Settings" component={Settings} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </GlobalStore>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   main: {
-    paddingTop: 23,
     flex: 1,
-    borderWidth: 1,
-    borderColor: "#137793",
-  },
-  AddButton: {
-    position: "absolute",
-    borderWidth: 2,
-    borderRadius: 300,
-    height: 60,
-    width: 60,
-    bottom: 20,
-    right: 4,
-  },
-  AddButtonText: {
-    lineHeight: 60,
-    color: "red",
-    fontSize: 60,
-    alignSelf: "center",
   },
 });

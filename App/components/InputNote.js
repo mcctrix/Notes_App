@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
 import {
   View,
   TextInput,
@@ -8,14 +7,15 @@ import {
   Modal,
   Text,
 } from "react-native";
-
+import { CheckBox } from "react-native-paper";
 export default function (props) {
   const [EnteredNote, setEnteredNote] = useState("");
-
   const NoteInputHandler = (value) => {
     setEnteredNote(value);
   };
-
+  const AddNote = () => {
+    props.NoteAdd(EnteredNote, setEnteredNote);
+  };
   return (
     <Modal visible={props.visibility} animationType="slide">
       <View style={styles.input_container}>
@@ -24,19 +24,20 @@ export default function (props) {
           value={EnteredNote}
           onChangeText={NoteInputHandler}
           style={styles.inputfield}
-          onSubmitEditing={props.NoteAdd.bind(this, EnteredNote)}
+          onSubmitEditing={AddNote}
         />
+        <CheckBox />
         <View style={styles.Buttons}>
           <TouchableOpacity
             title="Add"
             style={styles.InputButton}
-            onPress={props.NoteAdd.bind(this, EnteredNote, setEnteredNote)}
+            onPress={AddNote}
           >
             <Text style={styles.InputButtonText}>Add</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            title="Add"
+            title="Cancel"
             style={styles.InputButton}
             onPress={props.NoteAdd.bind(this, "")}
           >
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     height: 40,
     width: 90,
-    backgroundColor: "red",
+    backgroundColor: "#055d75",
     textAlign: "center",
     lineHeight: 40,
     color: "#ffffff",

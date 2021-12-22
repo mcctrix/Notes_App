@@ -16,13 +16,17 @@ export default function NoteCard(props) {
 const styles = StyleSheet.create({
   note_card: {
     width: "100%",
-    height: 45,
+    height: 55,
     backgroundColor: "#055d75",
-    marginVertical: 5,
+    borderColor: "#ffffff",
+    borderWidth: 1,
+    borderRadius: 1,
     flexDirection: "row",
     padding: 5,
     paddingHorizontal: 10,
+    display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   NoteText: {
     color: "#ffffff",
@@ -31,5 +35,6 @@ const styles = StyleSheet.create({
   CardText: {
     color: "#ffffff",
     fontSize: 25,
+    textAlign: "center",
   },
 });
