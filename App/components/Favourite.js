@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, FlatList } from "react-native";
 import Header from "./Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Context } from "./GlobalStore";
 import NoteCard from "./NoteCard";
 
 export default function Favourite() {
+  const context = useContext(Context);
   const [Notes, setNotes] = useState([]);
   useEffect(() => {
     DataObtain();
-  }, []);
+  }, [context.State]);
   const DataObtain = async () => {
     try {
       const Data = await AsyncStorage.getItem("Notes_Data");
@@ -20,10 +22,20 @@ export default function Favourite() {
     }
   };
   const DeleteNote = async (key) => {
-    const newNotes = Notes.filter((item) => item.key != key);
-    const JsonNotes = JSON.stringify(newNotes);
-    await AsyncStorage.setItem("Notes_Data", JsonNotes);
+    const Notes = await AsyncStorage.getItem("Notes_Data");
+    const JsonNotes = JSON.parse(Notes);
+    const newNotes = JsonNotes.filter((item) => item.key != key);
+    const JsonNote = JSON.stringify(newNotes);
+    await AsyncStorage.setItem("Notes_Data", JsonNote);
     context.setState((prev) => ++prev);
+    context.setNoteAlert((prev) => ++prev);
+
+    // const NoteData = await AsyncStorage.getItem("Notes_Data");
+    // const JsonData = JSON.parse(NoteData);
+
+    // await AsyncStorage.setItem("Notes_Data", JsonNotes);
+    // context.setState((prev) => ++prev);
+    // context.setNoteAlert((prev) => ++prev);
   };
   return (
     <View>

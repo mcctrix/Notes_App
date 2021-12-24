@@ -1,18 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Context } from "./GlobalStore";
 import Header from "./Header";
 import InputNote from "./InputNote";
 import Note from "./Note";
+import NoNotes from "./NoNotes";
 
 export default function HomeScreen() {
   const context = useContext(Context);
-
+  const [NotesExist, setNotesExist] = useState(false);
+  useEffect(async () => {
+    const Notes = await AsyncStorage.getItem("Notes_Data");
+    const JsonN = await JSON.parse(Notes);
+    if (JsonN[0] === undefined) {
+      return setNotesExist(false);
+    } else {
+      return setNotesExist(true);
+    }
+  }, [context.NoteAlert]);
   return (
     <View style={styles.main}>
       <Header></Header>
       <InputNote></InputNote>
-      <Note></Note>
+      {NotesExist ? <Note /> : <NoNotes />}
       <TouchableOpacity
         style={styles.AddButton}
         onPress={() => context.setInputVis(true)}

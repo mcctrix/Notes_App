@@ -1,15 +1,30 @@
-import React from "react";
-
+import React, { useState } from "react";
+import DetailNote from "./Modal/DetailNote";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function NoteCard(props) {
+  const [DetailNoteDisplay, setDetailNoteDisplay] = useState(false);
+
   return (
-    <TouchableOpacity activeOpacity={0.6} style={styles.note_card}>
-      <Text style={styles.NoteText}>{props.note.value}</Text>
-      <TouchableOpacity onPress={props.DeleteNote.bind(this, props.note.key)}>
-        <Text style={styles.CardText}>Delete</Text>
+    <>
+      <TouchableOpacity
+        onPress={() => {
+          setDetailNoteDisplay(true);
+        }}
+        activeOpacity={0.6}
+        style={styles.note_card}
+      >
+        <Text style={styles.NoteText}>{props.note.value}</Text>
+        <TouchableOpacity onPress={props.DeleteNote.bind(this, props.note.key)}>
+          <Text style={styles.CardText}>Delete</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
+      <DetailNote
+        Display={DetailNoteDisplay}
+        Data={props}
+        ChangeDis={setDetailNoteDisplay}
+      />
+    </>
   );
 }
 

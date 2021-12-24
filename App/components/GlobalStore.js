@@ -9,7 +9,17 @@ export const Context = createContext({
 export default function GlobalStore(props) {
   const [InputVisibility, setInputVisibility] = useState(false);
   const [State, setState] = useState(0);
-  const NoteAddHandler = async (note, setEnteredNote) => {
+  const [NoteAddAlert, setNoteAddAlert] = useState(0);
+
+  const NoteAddHandler = async (
+    note,
+    setEnteredNote,
+    checkbox,
+    setChkBox,
+    description,
+    setDes
+  ) => {
+    setNoteAddAlert((value) => ++value);
     setState((value) => ++value);
     setInputVisibility(false);
     if (note == "") {
@@ -17,19 +27,23 @@ export default function GlobalStore(props) {
     } else {
       const req = await AsyncStorage.getItem("Notes_Data");
       if (req == null) {
-        const data = [{ key: Date.now(), value: note, isFav: false }];
+        const data = [
+          { key: Date.now(), value: note, isFav: checkbox, Des: description },
+        ];
         let jsondata = JSON.stringify(data);
         await AsyncStorage.setItem("Notes_Data", jsondata);
       } else {
         let database = JSON.parse(req);
         let added = [
           ...database,
-          { key: Date.now(), value: note, isFav: false },
+          { key: Date.now(), value: note, isFav: checkbox, Des: description },
         ];
         let pushme = JSON.stringify(added);
         await AsyncStorage.setItem("Notes_Data", pushme);
       }
       setEnteredNote("");
+      setDes("");
+      setChkBox(false);
     }
   };
   return (
@@ -40,6 +54,8 @@ export default function GlobalStore(props) {
         NoteAdd: NoteAddHandler,
         InputVis: InputVisibility,
         setInputVis: setInputVisibility,
+        NoteAlert: NoteAddAlert,
+        setNoteAlert: setNoteAddAlert,
       }}
     >
       {props.children}

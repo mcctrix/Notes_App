@@ -31,6 +31,7 @@ export default function Note() {
     const JsonNotes = JSON.stringify(newNotes);
     await AsyncStorage.setItem("Notes_Data", JsonNotes);
     context.setState((prev) => ++prev);
+    context.setNoteAlert((prev) => ++prev);
   };
   return (
     <FlatList
