@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import GlobalStyles from "../constants/GlobalStyles";
 import { Modal, Text, StyleSheet, View, TouchableOpacity } from "react-native";
 export default function (props) {
   // useEffect(() => {
@@ -12,13 +13,19 @@ export default function (props) {
             onPress={() => props.ChangeDis(false)}
             style={styles.Button}
           >
-            <Text style={styles.ButtonText}>Close</Text>
+            <Text style={[styles.ButtonText, GlobalStyles.Font]}>Close</Text>
           </TouchableOpacity>
-          <Text style={styles.TitleStyle}>{props.Data.note.value}</Text>
+          <Text style={[styles.TitleStyle, GlobalStyles.Font]}>
+            {props.Data.note.value}
+          </Text>
           {props.Data.note.isFav == true && (
-            <Text style={styles.FavStyle}>Favourite Note</Text>
+            <Text style={[styles.FavStyle, GlobalStyles.Font]}>
+              Favourite Note
+            </Text>
           )}
-          <Text style={{ fontSize: 30 }}>{props.Data.note.Des}</Text>
+          <Text style={[{ fontSize: 30 }, GlobalStyles.Font]}>
+            {props.Data.note.Des}
+          </Text>
         </View>
       </View>
     </Modal>

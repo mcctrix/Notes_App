@@ -9,6 +9,7 @@ import {
   Text,
 } from "react-native";
 import { Switch } from "react-native-elements";
+import GlobalStyles from "./constants/GlobalStyles";
 
 export default function () {
   const [checkbox, setChekbox] = useState(false);
@@ -28,6 +29,12 @@ export default function () {
       setDescription
     );
   };
+  const clearField = () => {
+    Store.setInputVis(false);
+    setEnteredNote("");
+    setDescription("");
+    setChekbox("");
+  };
   const CheckFunc = () => {
     setChekbox((prev) => {
       return !prev;
@@ -37,21 +44,22 @@ export default function () {
     <Modal animationType="slide" transparent={true} visible={Store.InputVis}>
       <View style={styles.Container}>
         <View style={styles.ModalStyle}>
-          <Text style={styles.Text}>Add Note</Text>
+          <Text style={[styles.Text, GlobalStyles.Font]}>Add Note</Text>
           <TextInput
             value={EnteredNote}
             onChangeText={NoteInputHandler}
-            style={styles.inputfield}
+            style={[styles.inputfield, GlobalStyles.Font]}
             placeholder="Title"
             placeholderTextColor="#055d75"
           />
           <TextInput
             value={Description}
+            multiline
             onChangeText={(value) => setDescription(value)}
             autoCapitalize="sentences"
             placeholder="Type your note description...."
             placeholderTextColor="#055d75"
-            style={styles.InputDescription}
+            style={[styles.InputDescription, GlobalStyles.Font]}
           />
           <View
             style={{
@@ -59,7 +67,9 @@ export default function () {
               position: "relative",
             }}
           >
-            <Text style={{ fontSize: 25 }}>Favourite: </Text>
+            <Text style={[{ fontSize: 25, marginRight: 6 }, GlobalStyles.Font]}>
+              Favourite:
+            </Text>
             <Switch value={checkbox} onValueChange={CheckFunc} />
           </View>
           <View style={styles.Buttons}>
@@ -68,15 +78,19 @@ export default function () {
               style={styles.InputButton}
               onPress={AddNote}
             >
-              <Text style={styles.InputButtonText}>Add</Text>
+              <Text style={[styles.InputButtonText, GlobalStyles.Font]}>
+                Add
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               title="Cancel"
               style={styles.InputButton}
-              onPress={Store.NoteAdd.bind(this, "")}
+              onPress={clearField}
             >
-              <Text style={styles.InputButtonText}>Cancel</Text>
+              <Text style={[styles.InputButtonText, GlobalStyles.Font]}>
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -86,12 +100,6 @@ export default function () {
 }
 
 const styles = StyleSheet.create({
-  inputfield: {
-    borderColor: "black",
-    padding: 7,
-    width: "46%",
-    borderWidth: 1,
-  },
   Text: {
     fontSize: 30,
     marginBottom: 10,
@@ -116,12 +124,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   InputDescription: {
-    width: "80%",
+    width: "90%",
     borderColor: "black",
     paddingLeft: 7,
     borderWidth: 1,
     marginTop: "5%",
     height: "20%",
+    fontSize: 25,
+  },
+  inputfield: {
+    borderColor: "black",
+    padding: 7,
+    width: "90%",
+    borderWidth: 1,
+    fontSize: 25,
   },
   Container: {
     flex: 1,
@@ -133,32 +149,9 @@ const styles = StyleSheet.create({
     borderColor: "#0682a1",
     borderWidth: 7,
     padding: 24,
-    height: "65%",
+    height: "60%",
     width: "95%",
     backgroundColor: "white",
     position: "relative",
-  },
-  Button: {
-    position: "absolute",
-    bottom: "4%",
-    left: "47%",
-    width: 60,
-    backgroundColor: "black",
-    height: 50,
-    width: 100,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  ButtonText: {
-    right: 10,
-    fontSize: 27,
-    color: "white",
-  },
-  TitleStyle: {
-    fontSize: 55,
-  },
-  FavStyle: {
-    fontSize: 33,
-    color: "tomato",
   },
 });

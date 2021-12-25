@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import GlobalStyles from "./constants/GlobalStyles";
 
 export default function Header() {
   return (
     <View style={styles.container}>
-      <Text style={styles.Title}>Notes</Text>
+      <Text style={[styles.Title, GlobalStyles.Font]}>Notes</Text>
     </View>
   );
 }
@@ -14,11 +15,11 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
     flexDirection: "row",
-    padding: 10,
-    borderWidth: 1,
     justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
   },
   Title: {
-    fontSize: 20,
+    fontSize: 30,
   },
 });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList, StyleSheet, Platform, StatusBar } from "react-native";
 import Header from "./Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Context } from "./GlobalStore";
@@ -38,7 +38,7 @@ export default function Favourite() {
     // context.setNoteAlert((prev) => ++prev);
   };
   return (
-    <View>
+    <View style={styles.Container}>
       <Header />
       <FlatList
         data={Notes}
@@ -49,3 +49,9 @@ export default function Favourite() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  Container: {
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+});

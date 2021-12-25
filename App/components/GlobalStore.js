@@ -23,6 +23,8 @@ export default function GlobalStore(props) {
     setState((value) => ++value);
     setInputVisibility(false);
     if (note == "") {
+      setDes("");
+      setChkBox(false);
       return;
     } else {
       const req = await AsyncStorage.getItem("Notes_Data");
