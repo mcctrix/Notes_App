@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import GlobalStyles from "./constants/GlobalStyles";
 
-export default function Header() {
+export default function Header(props) {
   return (
     <View style={styles.container}>
-      <Text style={[styles.Title, GlobalStyles.Font]}>Notes</Text>
+      <Text style={[styles.Title, GlobalStyles.Font]}>{props.title}</Text>
     </View>
   );
 }

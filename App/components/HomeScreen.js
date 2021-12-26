@@ -38,7 +38,7 @@ export default function HomeScreen() {
   }
   return (
     <View style={styles.main}>
-      <Header></Header>
+      <Header title="Home"></Header>
       <InputNote></InputNote>
       {NotesExist ? <Note /> : <NoNotes />}
       <TouchableOpacity

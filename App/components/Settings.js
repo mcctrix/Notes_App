@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
-import GlobalStyles from "./constants/GlobalStyles";
+import { View, StyleSheet, Platform, StatusBar } from "react-native";
+import Header from "./Header";
 
 export default function Settings() {
   return (
-    <View>
-      <Text style={[{ fontSize: 45 }, GlobalStyles.Font]}>Hello</Text>
+    <View style={styles.Container}>
+      <Header title="Settings" />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  Container: {
+    flex: 1,
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+});

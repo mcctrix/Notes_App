@@ -1,31 +1,44 @@
-import React, { useEffect } from "react";
-import GlobalStyles from "../constants/GlobalStyles";
-import { Modal, Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import DetailNoteEditMode from "./DetailNoteEditMode";
+import {
+  Modal,
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import DetailNoteNormalMode from "./DetailNoteNormalMode";
 export default function (props) {
+  const [Editing, setEditing] = useState(false);
+
   // useEffect(() => {
   //   console.log(props);
   // }, []);
+  const Editmode = () => {
+    setEditing((prev) => !prev);
+  };
+
   return (
     <Modal animationType="slide" transparent={true} visible={props.Display}>
       <View style={styles.Container}>
         <View style={styles.ModalStyle}>
-          <TouchableOpacity
-            onPress={() => props.ChangeDis(false)}
-            style={styles.Button}
-          >
-            <Text style={[styles.ButtonText, GlobalStyles.Font]}>Close</Text>
-          </TouchableOpacity>
-          <Text style={[styles.TitleStyle, GlobalStyles.Font]}>
-            {props.Data.note.value}
-          </Text>
-          {props.Data.note.isFav == true && (
-            <Text style={[styles.FavStyle, GlobalStyles.Font]}>
-              Favourite Note
-            </Text>
+          {Editing ? (
+            <DetailNoteEditMode
+              title={props.Data.note.value}
+              Des={props.Data.note.Des}
+              IsFav={props.Data.note.isFav}
+              id={props.Data.note.key}
+              editmode={Editmode}
+              DetailDis={props.ChangeDis}
+            />
+          ) : (
+            <DetailNoteNormalMode Data={props} />
           )}
-          <Text style={[{ fontSize: 30 }, GlobalStyles.Font]}>
-            {props.Data.note.Des}
-          </Text>
+          <TouchableOpacity style={styles.EditButton} onPress={Editmode}>
+            <Entypo name="edit" size={45} color="white" />
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -48,27 +61,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     position: "relative",
   },
-  Button: {
-    position: "absolute",
-    bottom: "4%",
-    alignSelf: "center",
+  EditButton: {
+    backgroundColor: "#055d75",
     width: 60,
-    backgroundColor: "black",
-    height: 50,
-    width: 100,
+    height: 60,
+    position: "absolute",
+    right: 20,
+    top: 15,
     justifyContent: "center",
     alignItems: "center",
-  },
-  ButtonText: {
-    right: 10,
-    fontSize: 27,
-    color: "white",
-  },
-  TitleStyle: {
-    fontSize: 55,
-  },
-  FavStyle: {
-    fontSize: 33,
-    color: "tomato",
+    borderRadius: 100,
   },
 });
