@@ -20,7 +20,7 @@ export default function GlobalStore(props) {
     setDes
   ) => {
     setNoteAddAlert((value) => ++value);
-    setState((value) => ++value);
+
     setInputVisibility(false);
     if (note == "") {
       setDes("");
@@ -46,6 +46,7 @@ export default function GlobalStore(props) {
       setEnteredNote("");
       setDes("");
       setChkBox(false);
+      setState((value) => ++value);
     }
   };
   return (
