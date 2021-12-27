@@ -16,22 +16,25 @@ export default function app() {
         <NavigationContainer initialRoute="Home">
           <Tab.Navigator
             barStyle={{ backgroundColor: "#055d75" }}
-            labeled="true"
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, size, color }) => {
                 let iconName;
+                let colour;
                 if (route.name == "Home") {
                   iconName = "home";
-                  size = focused ? 30 : 20;
+                  size = focused ? 27 : 15;
+                  colour = focused ? "green" : "white";
                 } else if (route.name == "Favourite") {
                   iconName = "heart";
-                  size = focused ? 25 : 20;
-                } else if (route == "Settings") {
-                  iconName = "account";
-                  size = focused ? 45 : 40;
+                  size = focused ? 22 : 15;
+                  color = focused ? "red" : "white";
+                } else if (route.name == "Settings") {
+                  iconName = "user";
+                  size = focused ? 22 : 15;
+                  colour = "white";
                 }
                 return (
-                  <FontAwesome name={iconName} size={size} color="white" />
+                  <FontAwesome name={iconName} size={size} color={color} />
                 );
               },
             })}
@@ -44,20 +47,8 @@ export default function app() {
               }}
             />
 
-            <Tab.Screen
-              name="Favourite"
-              component={Favourite}
-              options={{
-                tabBarIcon: "heart",
-              }}
-            />
-            <Tab.Screen
-              name="Settings"
-              component={Settings}
-              options={{
-                tabBarIcon: "account",
-              }}
-            />
+            <Tab.Screen name="Favourite" component={Favourite} />
+            <Tab.Screen name="Settings" component={Settings} />
           </Tab.Navigator>
         </NavigationContainer>
       </GlobalStore>

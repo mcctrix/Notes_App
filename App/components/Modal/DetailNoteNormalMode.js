@@ -1,11 +1,11 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import GlobalStyles from "../constants/GlobalStyles";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function DetailNoteNormalMode(props) {
   const Fav = (
-    <>
+    <View style={styles.StyleDiv}>
       <Text style={[styles.FavStyle, GlobalStyles.Font]}>Fav:</Text>
       <MaterialIcons
         name="favorite"
@@ -13,7 +13,7 @@ export default function DetailNoteNormalMode(props) {
         color="red"
         style={styles.StyleFav}
       />
-    </>
+    </View>
   );
   return (
     <>
@@ -57,13 +57,11 @@ const styles = StyleSheet.create({
   FavStyle: {
     fontSize: 33,
     color: "red",
-    position: "absolute",
-    top: 20,
-    left: 110,
   },
-  StyleFav: {
+  StyleDiv: {
     position: "absolute",
     top: 20,
     alignSelf: "center",
+    flexDirection: "row",
   },
 });

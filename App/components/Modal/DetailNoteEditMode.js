@@ -51,23 +51,23 @@ export default function DetailNoteEditMode(props) {
   };
   return (
     <View style={styles.EditmodeDiv}>
-      <Text style={styles.EditmodeText}>Title:</Text>
+      <Text style={[styles.EditmodeText, GlobalStyles.Font]}>Title:</Text>
       <TextInput
         value={EditTitle}
         onChangeText={(value) => {
           setEditTitle(value);
         }}
         multiline
-        style={styles.InputEdit}
+        style={[styles.InputEdit, GlobalStyles.Font]}
       />
-      <Text style={styles.EditmodeText}>Description: </Text>
+      <Text style={[styles.EditmodeText, GlobalStyles.Font]}>Description:</Text>
       <TextInput
         multiline
         value={EditDes}
         onChangeText={(value) => {
           setEditDes(value);
         }}
-        style={[styles.InputEdit, { height: 80 }]}
+        style={[styles.InputEdit, { height: 80 }, GlobalStyles.Font]}
       />
       <View
         style={{
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   EditmodeText: {
-    fontSize: 35,
+    fontSize: 40,
   },
   ButtonText: {
     fontSize: 27,

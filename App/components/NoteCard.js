@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import DetailNote from "./Modal/DetailNote";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import GlobalStyles from "./constants/GlobalStyles";
+import ConfirmDelete from "./Modal/ConfirmDelete";
 
 export default function NoteCard(props) {
   const [DetailNoteDisplay, setDetailNoteDisplay] = useState(false);
+  const [DeletePress, setDeletePress] = useState(false);
 
+  const DeleteNote = () => {
+    props.DeleteNote(props.note.key);
+  };
   return (
     <>
       <TouchableOpacity
@@ -18,10 +23,15 @@ export default function NoteCard(props) {
         <Text style={[styles.NoteText, GlobalStyles.Font]}>
           {props.note.value}
         </Text>
-        <TouchableOpacity onPress={props.DeleteNote.bind(this, props.note.key)}>
+        <TouchableOpacity onPress={() => setDeletePress((v) => !v)}>
           <Text style={[styles.CardText, GlobalStyles.Font]}>Delete</Text>
         </TouchableOpacity>
       </TouchableOpacity>
+      <ConfirmDelete
+        Display={DeletePress}
+        ChangeDis={setDeletePress}
+        DeleteNote={DeleteNote}
+      />
       <DetailNote
         Display={DetailNoteDisplay}
         Data={props}
