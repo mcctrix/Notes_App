@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Keyboard,
 } from "react-native";
 import GlobalStyles from "../constants/GlobalStyles";
 import { Context } from "../GlobalStore";
@@ -12,6 +13,7 @@ import { Switch } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DetailNoteEditMode(props) {
+  const [keyboardStatus, setkeyboardStatus] = useState(false);
   const context = useContext(Context);
   const [CheckBox, setCheckBox] = useState(false);
   const [EditTitle, setEditTitle] = useState("");
@@ -23,13 +25,21 @@ export default function DetailNoteEditMode(props) {
   };
   useEffect(() => {
     EditModeData();
+    const keyboardshown = Keyboard.addListener("keyboardDidShow", () => {
+      setkeyboardStatus(true);
+    });
+    const keyboardhide = Keyboard.addListener("keyboardDidHide", () => {
+      setkeyboardStatus(false);
+    });
+    return () => {
+      keyboardshown.remove();
+      keyboardhide.remove();
+    };
   }, []);
   // ALL funcy Stuff
   const AddData = async () => {
     const Database = await AsyncStorage.getItem("Notes_Data");
     const JsonData = JSON.parse(Database);
-    console.log(JsonData);
-    console.log(props);
     const EditedData = JsonData.map((x) => {
       if (x.key == props.id) {
         x.value = EditTitle;
@@ -51,23 +61,57 @@ export default function DetailNoteEditMode(props) {
   };
   return (
     <View style={styles.EditmodeDiv}>
-      <Text style={[styles.EditmodeText, GlobalStyles.Font]}>Title:</Text>
+      <Text
+        style={[
+          styles.EditmodeText,
+          GlobalStyles.Font,
+          {
+            fontSize: keyboardStatus ? 20 : 40,
+          },
+        ]}
+      >
+        Title:
+      </Text>
       <TextInput
         value={EditTitle}
         onChangeText={(value) => {
           setEditTitle(value);
         }}
         multiline
-        style={[styles.InputEdit, GlobalStyles.Font]}
+        style={[
+          styles.InputEdit,
+          GlobalStyles.Font,
+          {
+            height: keyboardStatus ? 40 : 50,
+            width: keyboardStatus ? "60%" : "100%",
+          },
+        ]}
       />
-      <Text style={[styles.EditmodeText, GlobalStyles.Font]}>Description:</Text>
+      <Text
+        style={[
+          styles.EditmodeText,
+          GlobalStyles.Font,
+          {
+            fontSize: keyboardStatus ? 20 : 40,
+          },
+        ]}
+      >
+        Description:
+      </Text>
       <TextInput
         multiline
         value={EditDes}
         onChangeText={(value) => {
           setEditDes(value);
         }}
-        style={[styles.InputEdit, { height: 80 }, GlobalStyles.Font]}
+        style={[
+          styles.InputEdit,
+          { height: 80 },
+          GlobalStyles.Font,
+          {
+            height: keyboardStatus ? 40 : 70,
+          },
+        ]}
       />
       <View
         style={{

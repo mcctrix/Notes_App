@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "./GlobalStore";
 import {
   View,
@@ -7,11 +7,13 @@ import {
   StyleSheet,
   Modal,
   Text,
+  Keyboard,
 } from "react-native";
 import { Switch } from "react-native-elements";
 import GlobalStyles from "./constants/GlobalStyles";
 
 export default function () {
+  const [keyboardStatus, setkeyboardStatus] = useState(false);
   const [checkbox, setChekbox] = useState(false);
   const Store = useContext(Context);
   const [EnteredNote, setEnteredNote] = useState("");
@@ -19,6 +21,18 @@ export default function () {
   const NoteInputHandler = (value) => {
     setEnteredNote(value);
   };
+  useEffect(() => {
+    const keyboardshown = Keyboard.addListener("keyboardDidShow", () => {
+      setkeyboardStatus(true);
+    });
+    const keyboardhide = Keyboard.addListener("keyboardDidHide", () => {
+      setkeyboardStatus(false);
+    });
+    return () => {
+      keyboardshown.remove();
+      keyboardhide.remove();
+    };
+  }, []);
   const AddNote = () => {
     Store.NoteAdd(
       EnteredNote,
@@ -42,8 +56,23 @@ export default function () {
   };
   return (
     <Modal animationType="slide" transparent={true} visible={Store.InputVis}>
-      <View style={styles.Container}>
-        <View style={styles.ModalStyle}>
+      <View
+        style={[
+          styles.Container,
+          {
+            justifyContent: keyboardStatus ? "flex-start" : "center",
+          },
+        ]}
+      >
+        <View
+          style={[
+            styles.ModalStyle,
+            {
+              height: keyboardStatus ? "100%" : "60%",
+              width: "95%",
+            },
+          ]}
+        >
           <Text style={[styles.Text, GlobalStyles.Font]}>Add Note</Text>
           <TextInput
             value={EnteredNote}
@@ -100,6 +129,11 @@ export default function () {
 }
 
 const styles = StyleSheet.create({
+  Container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   Text: {
     fontSize: 30,
     marginBottom: 10,
@@ -139,18 +173,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 25,
   },
-  Container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   ModalStyle: {
     borderRadius: 45,
     borderColor: "#0682a1",
     borderWidth: 7,
     padding: 24,
-    height: "60%",
-    width: "95%",
     backgroundColor: "white",
     position: "relative",
   },
